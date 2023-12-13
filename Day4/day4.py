@@ -5,11 +5,15 @@ with open("puzzle_input.txt") as f:
 
     score = 0
 
+    def num_arr(line, num, letter):
+
+        return [int(letter) for letter in line.split(":")[1].split("|")[int(num)].split()]
+
 
     for line in file:
 
-        user_nums = [int(u) for u in line.split(":")[1].split("|")[1].split()]
-        winning_nums = [int(w) for w in line.split(":")[1].split("|")[0].split()]
+        user_nums = num_arr(line, 1, "u")
+        winning_nums = num_arr(line, 0, "w")
 
         indiv_point = 0
 
@@ -27,23 +31,26 @@ with open("puzzle_input.txt") as f:
 
     score2 = 0
 
-    mult = [1 for i in file]
+    def iterated(matching_nums, file):
+
+        return range(i + 1, min(i + len(matching_nums) + 1, len(file)))
+
+    add_1 = 1
+
+    mult = [add_1 for i in file]
 
     for i, line in enumerate(file):
 
-        user_nums = [int(u) for u in line.split(":")[1].split("|")[1].split()]
-        winning_nums = [int(w) for w in line.split(":")[1].split("|")[0].split()]
+        user_nums = num_arr(line, 1, "u")
+        winning_nums = num_arr(line, 0, "w")
 
         matching_nums = [m for m in user_nums if m in winning_nums]
 
-        
-        c_mult = mult[i]
+        for copy in iterated(matching_nums, file):
 
-        for j in range(i + 1, min(i + len(matching_nums) + 1, len(file))):
+            mult[copy] += mult[i]
 
-            mult[j] += c_mult
-
-        score2 += c_mult
+        score2 += mult[i]
 
             
 
