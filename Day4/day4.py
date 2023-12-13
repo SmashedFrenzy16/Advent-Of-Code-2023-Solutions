@@ -23,7 +23,7 @@ with open("puzzle_input.txt") as f:
 
             if u in winning_nums:
 
-                indiv_point = 2 ** power
+                indiv_point = pow(2, power)
 
                 power += 1
 
